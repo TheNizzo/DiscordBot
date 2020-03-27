@@ -5,9 +5,11 @@ import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 from corona import get_lebanon, get_world, get_top
+import re
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+
 
 bot = commands.Bot(command_prefix='!')
 
@@ -19,8 +21,12 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user.name:
         return
-    #if any(ele in message.content.lower() for ele in bad_words):
-    #    await message.channel.send("Please behave " + message.author.name + "!")
+    elif re.match("^\.[a-zA-Z]+", message.content):
+        print("Im here")
+        response = "Hey there, " + message.author.mention + ". I see you are using Moe's bot (lame). Why dont you try typing '!help' for a list of (USEFUL) commands from my part. :)"
+        print(message.author.name + " just used moe's command. Get him!")
+        await message.channel.send(response)
+        #await message.channel.send("Hey there, " + message.author + ". I see you are using Moe's bot (lame).\nWhy dont you try typing '!help' for a list of (USEFUL) commands from my part ;)")
     elif message.content == 'speak!':
         response = "Okay please dont hurt me ya zghirrrrrrrr"
         await message.channel.send(response)
