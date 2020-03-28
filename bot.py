@@ -26,7 +26,6 @@ async def on_message(message):
         response = "Hey there, " + message.author.mention + ". I see you are using Moe's bot (lame). Why dont you try typing '!help' for a list of (USEFUL) commands from my part. :)"
         print(message.author.name + " just used moe's command. Get him!")
         await message.channel.send(response)
-        #await message.channel.send("Hey there, " + message.author + ". I see you are using Moe's bot (lame).\nWhy dont you try typing '!help' for a list of (USEFUL) commands from my part ;)")
     elif message.content == 'speak!':
         response = "Okay please dont hurt me ya zghirrrrrrrr"
         await message.channel.send(response)
@@ -80,7 +79,7 @@ async def corona(ctx, country='Lebanon'):
         await ctx.send("Error Occured: Country format not valid")
         return
     
-    response = "```diff\nShowing Corona numbers for {}:\n - Total cases: {}.\n {} since yesterday\n - Total deaths: {}.\n {} since yesterday\n - Total recovered: {}.\n```".format(country, list[1], list[2], list[3], list[4], list[5])
+    response = "```diff\nShowing Corona numbers for {}:\n - Total cases: {}.\n {} since yesterday\n - Total deaths: {}.\n {} since yesterday\n - Total recovered: {}.\n```".format(country, str(list[1]), str(list[2]), str(list[3]), str(list[4]), str(list[5]))
     print("CORONA: " + ctx.message.author.name + " search: " + country)
     await ctx.send(response)
 
