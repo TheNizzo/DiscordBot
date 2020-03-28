@@ -5,11 +5,9 @@ import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 from corona import get_lebanon, get_world, get_top
-import re
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-
 
 bot = commands.Bot(command_prefix='!')
 
@@ -21,11 +19,8 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user.name:
         return
-    elif re.match("^\.[a-zA-Z]+", message.content):
-        print("Im here")
-        response = "Hey there, " + message.author.mention + ". I see you are using Moe's bot (lame). Why dont you try typing '!help' for a list of (USEFUL) commands from my part. :)"
-        print(message.author.name + " just used moe's command. Get him!")
-        await message.channel.send(response)
+    #if any(ele in message.content.lower() for ele in bad_words):
+    #    await message.channel.send("Please behave " + message.author.name + "!")
     elif message.content == 'speak!':
         response = "Okay please dont hurt me ya zghirrrrrrrr"
         await message.channel.send(response)
@@ -79,7 +74,7 @@ async def corona(ctx, country='Lebanon'):
         await ctx.send("Error Occured: Country format not valid")
         return
     
-    response = "```diff\nShowing Corona numbers for {}:\n - Total cases: {}.\n {} since yesterday\n - Total deaths: {}.\n {} since yesterday\n - Total recovered: {}.\n```".format(country, str(list[1]), str(list[2]), str(list[3]), str(list[4]), str(list[5]))
+    response = "```diff\nShowing Corona numbers for {}:\n - Total cases: {}.\n {} since yesterday\n - Total deaths: {}.\n {} since yesterday\n - Total recovered: {}.\n```".format(country, list[1], list[2], list[3], list[4], list[5])
     print("CORONA: " + ctx.message.author.name + " search: " + country)
     await ctx.send(response)
 

@@ -1,4 +1,3 @@
 {
-    "python.pythonPath": "disc/bin/python3.6",
-    "git.ignoreLimitWarning": true
+    "python.pythonPath": "disc/bin/python3.6"
 }
