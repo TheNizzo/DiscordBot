@@ -3,17 +3,29 @@ import traceback
 import random
 import discord
 from dotenv import load_dotenv
-from discord.ext import commands
+from discord.ext import commands, tasks
 from corona import get_lebanon, get_world, get_top
+from itertools import cycle
+from graph import get_graph
+
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
 
+status = cycle([])
+
 @bot.event
 async def on_ready():
+    change_status.start()
     print(f'{bot.user.name} has connected to Discord!')
+
+@tasks.loop(seconds=10)
+async def change_status():
+    await bot.change_presence(
+        activity=discord.Game(next(status))
+    )
 
 @bot.event
 async def on_message(message):
@@ -22,7 +34,7 @@ async def on_message(message):
     #if any(ele in message.content.lower() for ele in bad_words):
     #    await message.channel.send("Please behave " + message.author.name + "!")
     elif message.content == 'speak!':
-        response = "Okay please dont hurt me ya zghirrrrrrrr"
+        response = "Okay"
         await message.channel.send(response)
     elif message.content == 'raise-exception':
         raise discord.DiscordException
@@ -30,7 +42,7 @@ async def on_message(message):
 
 @bot.command(name='speak', help='Tells you that the bot is speaking.')
 async def speak_bot(ctx):
-    response = "```I am speaking wle```"
+    response = "```I am speaking```"
     await ctx.send(response)
 
 @bot.command(name='roll_dice', help='Roll two dice.')
@@ -40,6 +52,15 @@ async def roll(ctx):
         for _ in range(2)
     ]
     await ctx.send(', '.join(dice))
+
+@bot.command(name='toss_coin', help='Toss a coin')
+async def toss(ctx):
+    response = ""
+    if random.randint(0,1) == 0:
+        response = "Heads"
+    else:
+        response = "Tails"
+    await ctx.send(response)
 
 @bot.command(name='corona', help='Displays corona numbers today')
 async def corona(ctx, country='Lebanon'):
@@ -130,7 +151,23 @@ async def suits(ctx):
 
     response = random.choice(list)
     tmp = response.split(":")
+    print("SUITS: "+ctx.message.author.name)
     await ctx.send("" + tmp[0] + " : ``" + tmp[1] + "``")
+
+
+# @tasks.loop(seconds=10)
+# async def tweet(ctx):
+#     channel = ["twitter"]
+#     for ch in ctx.channels.name:
+#         if 
+
+
+@bot.command(name='graph', help='Displays a graph about the current Covid-19 situation in Lebanon')
+async def graph(ctx):
+    print("Graph: "+ctx.message.author.name)
+    get_graph()
+    await ctx.send(file=discord.File('hello_there.png'))
+
 
 @bot.event
 async def on_error(event, *args, **kwargs):

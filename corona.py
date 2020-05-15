@@ -35,7 +35,7 @@ def get_dataframe():
     for j in range(1, 197):
         T = tr_elements[j]
 
-        if len(T) != 10:
+        if len(T) != 11:
             break
 
         i = 0
@@ -94,3 +94,6 @@ def get_lebanon(country):
     else:
         res.append(corona_country['TotalRecovered'].values[0])
     return res
+
+
+get_dataframe()
