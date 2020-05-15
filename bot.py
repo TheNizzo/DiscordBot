@@ -66,7 +66,7 @@ async def toss(ctx):
 async def corona(ctx, country='Lebanon'):
     if country == 'world':
         list = get_world()
-        response = "``` Showing Corona numbers for the entire fucking planet:\n - Total cases: {}.\n - Total deaths: {}.\n - Total recovered: {}.```".format(list[0], list[1], list[2])
+        response = "``` Showing Corona numbers for the entire planet:\n - Total cases: {}.\n - Total deaths: {}.\n - Total recovered: {}.```".format(list[0], list[1], list[2])
         await ctx.send(response)
         print("CORONA: " + ctx.message.author.name + " search: " + country)
         return
